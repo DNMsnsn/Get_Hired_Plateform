@@ -1,0 +1,340 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #F4F6F9;
+    color: #0C2340;
+}
+
+/* ── Navbar ── */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 65px;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    border-bottom: 1px solid #eef1f5;
+    z-index: 100;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo-icon {
+    font-size: 20px;
+    color: #185FA5;
+}
+
+.logo-text {
+    font-size: 18px;
+    font-weight: 700;
+    color: #185FA5;
+}
+
+.nav-links {
+    display: flex;
+    gap: 32px;
+}
+
+    .nav-links a {
+        text-decoration: none;
+        font-size: 15px;
+        font-weight: 500;
+        color: #0C2340;
+        transition: color 0.2s;
+    }
+
+        .nav-links a:hover {
+            color: #185FA5;
+        }
+
+.nav-auth {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-connexion {
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    color: #0C2340;
+    transition: color 0.2s;
+}
+
+    .btn-connexion:hover {
+        color: #185FA5;
+    }
+
+.btn-inscription {
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #185FA5;
+    padding: 9px 22px;
+    border-radius: 50px;
+    transition: background-color 0.2s;
+}
+
+    .btn-inscription:hover {
+        background-color: #0C447C;
+    }
+
+/* ── Hero ── */
+.hero {
+    position: relative;
+    margin-top: 65px;
+    height: calc(100vh - 65px);
+    background-image: url('bureau.jpeg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.55);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    padding: 0 24px;
+}
+
+    .hero-content h1 {
+        font-size: 52px;
+        font-weight: 700;
+        color: #ffffff;
+        line-height: 1.2;
+        margin-bottom: 16px;
+    }
+
+        .hero-content h1 span {
+            color: #38bdf8;
+        }
+
+    .hero-content p {
+        font-size: 17px;
+        color: #e0e8f0;
+        margin-bottom: 32px;
+        line-height: 1.6;
+    }
+
+/* ── Barre de recherche ── */
+.search-bar {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 50px;
+    padding: 6px 6px 6px 20px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+.searchForm {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+}
+
+.search-icon {
+    font-size: 16px;
+    margin-right: 10px;
+    color: #5a7a9a;
+}
+
+.search-bar input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    color: #0C2340;
+    background: transparent;
+}
+
+    .search-bar input::placeholder {
+        color: #b0bec5;
+    }
+
+.search-bar button {
+    background-color: #185FA5;
+    color: #ffffff;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 28px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+    .search-bar button:hover {
+        background-color: #0C447C;
+    }
+
+/* ── Stats ── */
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    padding: 40px 24px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #eef1f5;
+}
+
+.stat {
+    text-align: center;
+}
+
+    .stat h2 {
+        font-size: 32px;
+        font-weight: 700;
+        color: #185FA5;
+    }
+
+    .stat p {
+        font-size: 14px;
+        color: #5a7a9a;
+        margin-top: 4px;
+    }
+
+/* ── Section Offres ── */
+.off-sec {
+    background-color: #ffffff;
+    border: 1px solid #dde2ea;
+    border-radius: 14px;
+    padding: 24px;
+    margin: 32px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    scroll-margin-top: 80px;
+}
+
+    .off-sec h1 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #0C2340;
+    }
+
+/* ── Carte offre ── */
+.offre {
+    border: 1px solid #dde2ea;
+    border-radius: 10px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    background-color: #ffffff;
+}
+
+.offre-cat {
+    background-color: #E1F5EE;
+    color: #085041;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+
+.offre-titre {
+    font-size: 15px;
+    font-weight: 600;
+    color: #0C2340;
+    flex: 1;
+}
+
+.offre-lieu {
+    font-size: 13px;
+    color: #5a7a9a;
+}
+
+.offre-count {
+    font-size: 12px;
+    background-color: #F4F6F9;
+    color: #3a5a7a;
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+/* ── Boutons ── */
+.btn-primary {
+    width: fit-content;
+    background-color: #185FA5;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 18px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+    .btn-primary:hover {
+        background-color: #0C447C;
+    }
+
+    .btn-primary:active {
+        transform: scale(0.97);
+    }
+
+.btn-secondary {
+    background-color: transparent;
+    color: #185FA5;
+    border: 1px solid #185FA5;
+    border-radius: 8px;
+    padding: 9px 18px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+    .btn-secondary:hover {
+        background-color: #E6F1FB;
+    }
+
+    .btn-secondary:active {
+        transform: scale(0.97);
+    }
+
+
+.error-msg {
+    background-color: #FCEBEB;
+    border: 1px solid #F09595;
+    color: #A32D2D;
+    border-radius: 8px;
+    font-size: 13px;
+    padding: 10px 14px;
+    margin-top: 8px;
+}

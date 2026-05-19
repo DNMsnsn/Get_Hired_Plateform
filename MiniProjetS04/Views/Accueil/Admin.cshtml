@@ -1,0 +1,193 @@
+﻿@model MiniProjetS04.Models.AccueilViewModel
+@{
+    ViewBag.Title = "Admin";
+}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - GetHired</title>
+    <link rel="stylesheet" href="~/Content/adm.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-logo">
+            <span class="logo-icon">✉</span>
+            <span class="logo-text">GetHired</span>
+        </div>
+        <div class="nav-links">
+            <a href="@Url.Action("Accueil")">Accueil</a>
+            @if (Session["statut"].Equals("admin"))
+            {
+                <div class="nav-links">
+                    <a href="@Url.Action("Admin")">Admin</a>
+                </div>
+            }
+        </div>
+        
+        <div class="nav-auth">
+            <a href="@Url.Action("Profile", "Accueil")" class="btn-inscription">Profile</a>
+        </div>
+    </nav>
+
+    <div class="admin-layout">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-title">Administration</div>
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-link active" onclick="showSection('stats', this)">
+                    <i class="fa-solid fa-chart-line"></i> Statistiques
+                </a>
+                <a href="#" class="sidebar-link" onclick="showSection('users', this)">
+                    <i class="fa-solid fa-users"></i> Utilisateurs
+                </a>
+                <a href="#" class="sidebar-link" onclick="showSection('offres', this)">
+                    <i class="fa-solid fa-briefcase"></i> Offres
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Contenu principal -->
+        <main class="admin-main">
+
+            <!-- Statistiques -->
+            <section class="admin-section" id="stats">
+                <h1>Statistiques globales</h1>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fa-solid fa-users"></i>
+                        <div>
+                            <p class="stat-label">Utilisateurs</p>
+                            <p class="stat-value">@Model.nbUtilisateurs</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fa-solid fa-briefcase"></i>
+                        <div>
+                            <p class="stat-label">Offres publiées</p>
+                            <p class="stat-value">@Model.nbOffres</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fa-solid fa-file-lines"></i>
+                        <div>
+                            <p class="stat-label">Candidatures</p>
+                            <p class="stat-value">@Model.nbCandidatures</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Utilisateurs -->
+            <section class="admin-section" id="users" style="display:none">
+                <h1>Gestion des utilisateurs</h1>
+                <div class="card">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Email</th>
+                                <th>Rôle</th>
+                                <th>Inscrit le</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var u in Model.Utilisateurs) {
+                            <tr>
+                                <td><i class="fa-solid fa-user user-icon"></i> @u.Nom @u.Prenom</td>
+                                <td>@u.Email</td>
+                                <td>
+                                    @u.Statut
+                                    <form action="@Url.Action("UpdateStatutUtilisateur", "Accueil")" method="post">
+                                        <input type="hidden" name="Id" value="@u.Id" />
+                                        <select name="Statut" class="badge badge-purple">
+                                            <option value="utilisateur">Utilisateur</option>
+                                            <option value="admin">Admin</option>
+                                        </select>
+                                        <input type="submit" class="badge badge-green" style="border: none;" name="" id="">
+                                    </form>
+                                </td>
+                                <td>@u.Dt_inscrit</td>
+                                <td class="actions">
+                                    <form action="@Url.Action("adminDeleteUtilisateur", "Accueil")" method="post">
+                                        <input type="hidden" name="Id" value="@u.Id" />
+                                        <button type="submit" class="btn-icon btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Offres -->
+            <section class="admin-section" id="offres" style="display:none">
+                <h1>Gestion des offres</h1>
+                <div class="card">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Titre</th>
+                                <th>Entreprise</th>
+                                <th>Catégorie</th>
+                                <th>Type</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var o in Model.Offres)
+                            {
+                            <tr>
+                                <td>@o.titre_poste</td>
+                                <td>@o.entreprise</td>
+                                <td><span class="badge badge-blue">@o.categorie</span></td>
+                                <td>@o.type</td>
+                                <td>
+                                    @o.statut
+                                    <form action="@Url.Action("UpdateStatutOffre", "Accueil")" method="post">
+                                        <input type="hidden" name="Id" value="@o.Id" />
+                                        <select name="statut" class="badge badge-purple">
+                                            <option value="active">active</option>
+                                            <option value="inactive">inactive</option>
+                                            <option value="cloturee">cloturee</option>
+                                        </select>
+                                        <input type="submit" class="badge badge-green" style="border: none;" name="" id="">
+                                    </form>
+                                </td>
+                                <td class="actions">
+                                    <form action="@Url.Action("adminDeleteOffre", "Accueil")" method="post">
+                                        <input type="hidden" name="Id" value="@o.Id" />
+                                        <button type="submit" class="btn-icon btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        function showSection(id, el) {
+            document.querySelectorAll('.admin-section').forEach(s => s.style.display = 'none');
+            document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+            document.getElementById(id).style.display = 'block';
+            el.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
+

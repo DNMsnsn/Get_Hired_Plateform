@@ -1,0 +1,123 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="~/Content/file.css">
+    <link rel="stylesheet" href="~/Content/log.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-logo">
+            <span class="logo-icon">✉</span>
+            <span class="logo-text">GetHired</span>
+        </div>
+        <div class="nav-links">
+            <a href="@Url.Action("Accueil")">Accueil</a>
+        </div>
+    </nav>
+
+    <section class="cnx-bloc">
+
+        <div>
+            <button class="switch">Connexion</button>
+            <button class="switch">Inscription</button>
+        </div>
+
+        <div class="log">
+            <h1>Connexion</h1>
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="success-msg">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
+            <form action="@Url.Action("Authentification", "Accueil")" method="post" class="form">
+                <label for="mail">Email</label>
+                <input type="text" name="Email" id="mail" required>
+
+                <label for="psw">Password</label>
+                <input type="password" name="Psw" id="psw" required>
+
+                <input type="submit" name="login" id="login" value="Connexion">
+            </form>
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="error-msg">
+                    @TempData["ErrorMessage"]
+                </div>
+            }
+        </div>
+
+        <div class="sign">
+            <h1>Inscription</h1>
+            <form action="@Url.Action("Signup", "Accueil")" method="post" class="form">
+                <label for="nom">Nom</label>
+                <input type="text" name="Nom" id="nom" required>
+
+                <label for="prenom">Prenom</label>
+                <input type="text" name="Prenom" id="prenom">
+
+                <label for="dt_naiss">Date de naissance</label>
+                <input type="date" name="Dt_naiss" id="dt_naiss" required>
+
+                <label for="tel">Telephone</label>
+                <input type="tel" name="Tel" id="tel" required>
+
+                <label for="mail">Email</label>
+                <input type="text" name="Email" id="mail" required>
+
+                <label for="psw">Password</label>
+                <input type="password" name="Psw" id="psw" required>
+
+                <label for="adresse">Adresse</label>
+                <input type="text" name="Adresse" id="adresse">
+
+                <label for="linkedin">LinkedIn</label>
+                <input type="text" name="Linkedin" id="linkedin">
+
+                <label for="github">GitHub</label>
+                <input type="text" name="Github" id="github">
+
+                <label for="meta">Meta</label>
+                <input type="text" name="Meta" id="meta">
+
+                <input type="submit" name="sign" id="sign" value="Inscription">
+            </form>
+        </div>
+    </section>
+
+    <script>
+        const switches = document.querySelectorAll('.switch');
+        const log = document.querySelector('.log');
+        const sign = document.querySelector('.sign');
+
+        switches[0].classList.add('active');
+        log.classList.add('visible');
+
+        switches[0].addEventListener('click', () => {
+            log.classList.add('visible');
+            sign.classList.remove('visible');
+            switches[0].classList.add('active');
+            switches[1].classList.remove('active');
+        });
+
+        switches[1].addEventListener('click', () => {
+            sign.classList.add('visible');
+            log.classList.remove('visible');
+            switches[1].classList.add('active');
+            switches[0].classList.remove('active');
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,172 @@
+﻿@model MiniProjetS04.Models.AccueilViewModel
+@{
+    ViewBag.Title = "Acceuil";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil - GetHired</title>
+    <link rel="stylesheet" href="~/Content/file.css">
+    <link rel="stylesheet" href="~/Content/styles.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-logo">
+            <span class="logo-icon">✉</span>
+            <span class="logo-text">GetHired</span>
+        </div>
+        <div class="nav-links">
+            <a href="#hero">Accueil</a>
+            <a href="#offres">Offres d'emploi</a>
+        </div>
+        @if (Session["userId"] != null)
+        {
+            <div class="nav-auth">
+                <a href="@Url.Action("Profile", "Accueil")" class="btn-inscription">Profile</a>
+            </div>
+        }
+        else
+        {
+            <div class="nav-auth">
+                <a href="@Url.Action("Login")" class="btn-inscription">Connexion</a>
+            </div>
+        }
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" id="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Trouvez le poste<br><span>qui vous correspond</span></h1>
+            <p>GetHired met en relation candidats et recruteurs pour des opportunités adaptées.</p>
+            <form action="@Url.Action("Search", "Accueil")" class="searchForm" method="get">
+                <div class="search-bar">
+                    <span class="search-icon">🔍</span>
+                    <input type="search" name="sentence" placeholder="Poste, offres, entreprise...">
+                    <button type="submit">Rechercher</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats">
+        <div class="stat">
+            <h2>2 500+</h2>
+            <p>Entreprises</p>
+        </div>
+        <div class="stat">
+            <h2>10 000+</h2>
+            <p>Offres d'emploi</p>
+        </div>
+        <div class="stat">
+            <h2>1 200+</h2>
+            <p>Recrutements</p>
+        </div>
+    </section>
+
+    <!-- LISTE OFFRES -->
+    <section class="off-sec" id="offres">
+        <h1>Offres</h1>
+        @foreach (var offre in Model.Offres)
+        {
+            <div class="offre">
+                <div class="offre-cat">@offre.statut</div>
+                <div class="offre-count">Publier par @offre.utilisateur.Nom @offre.utilisateur.Prenom</div>
+                <div class="offre-lieu">@String.Format("{0:yyyy-MM-dd}", offre.date_ajout)</div>
+                <div class="offre-cat">@offre.categorie</div>
+                <div class="offre-titre">@offre.titre_poste</div>
+                <div class="offre-lieu">@offre.lieu_travail  |  @offre.type</div>
+                <div class="offre-count">@offre.nb_condidatures</div>
+                <button class="btn-secondary" onclick="details(this)"
+                        data-Id="@offre.Id"
+                        data-titre="@offre.titre_poste"
+                        data-entreprise="@offre.entreprise"
+                        data-description="@offre.description"
+                        data-mission="@offre.mission"
+                        data-profil="@offre.profil_rechercher"
+                        data-competences="@offre.competences_rechercher"
+                        data-conditions="@offre.conditions_travail"
+                        data-lieu="@offre.lieu_travail"
+                        data-avantages="@offre.avantages"
+                        data-statut="@offre.statut"
+                        data-type="@offre.type"
+                        data-categorie="@offre.categorie">
+                    Details
+                </button>
+            </div>
+        }
+    </section>
+
+    <div class="back">
+        <button class="close" onclick="closeOverlay()">x</button>
+        <div class="edit offr">
+            <h1 id="ttl">Details Offre</h1>
+
+            <p><strong>Titre :</strong> <span id="d_titre"></span></p>
+            <p><strong>Entreprise :</strong> <span id="d_entreprise"></span></p>
+            <p><strong>Description :</strong> <span id="d_description"></span></p>
+            <p><strong>Missions :</strong> <span id="d_mission"></span></p>
+            <p><strong>Profil recherché :</strong> <span id="d_profil"></span></p>
+            <p><strong>Compétences :</strong> <span id="d_competences"></span></p>
+            <p><strong>Conditions :</strong> <span id="d_conditions"></span></p>
+            <p><strong>Lieu :</strong> <span id="d_lieu"></span></p>
+            <p><strong>Avantages :</strong> <span id="d_avantages"></span></p>
+            <p><strong>Statut :</strong> <span id="d_statut"></span></p>
+            <p><strong>Type :</strong> <span id="d_type"></span></p>
+            <p><strong>Catégorie :</strong> <span id="d_categorie"></span></p>
+
+            @if (Session["userId"] != null)
+            {
+                <hr />
+            <h1>Ajouter Candidature</h1>
+
+            <form action="@Url.Action("Postuler", "Accueil")" method="post" class="form">
+                <input type="hidden" name="id_utilisateur" value="@Session["userId"]" />
+                <input type="hidden" name="id_offre" id="d_off_id" />
+                <input type="hidden" name="statut" value="EnAttente"/>
+                <label for="objet">Objet</label>
+                <textarea name="objet" id="objet"></textarea>
+
+                <input type="submit" name="sign" id="cvSign" value="Postuler">
+            </form>
+            }
+        </div>
+    </div>
+
+    <script>
+        let back = document.querySelector('.back');
+        let offr = document.querySelector('.offr');
+
+        function closeOverlay() {
+            back.style.display = "none";
+            offr.style.display = "none";
+        }
+
+        function details(btn) {
+            back.style.display = "flex";
+            offr.style.display = "flex";
+
+            document.getElementById("d_off_id").value = btn.dataset.id;
+            document.getElementById("d_titre").innerText = btn.dataset.titre;
+            document.getElementById("d_entreprise").innerText = btn.dataset.entreprise;
+            document.getElementById("d_description").innerText = btn.dataset.description;
+            document.getElementById("d_mission").innerText = btn.dataset.mission;
+            document.getElementById("d_profil").innerText = btn.dataset.profil;
+            document.getElementById("d_competences").innerText = btn.dataset.competences;
+            document.getElementById("d_conditions").innerText = btn.dataset.conditions;
+            document.getElementById("d_lieu").innerText = btn.dataset.lieu;
+            document.getElementById("d_avantages").innerText = btn.dataset.avantages;
+            document.getElementById("d_statut").innerText = btn.dataset.statut;
+            document.getElementById("d_type").innerText = btn.dataset.type;
+            document.getElementById("d_categorie").innerText = btn.dataset.categorie;
+        }
+    </script>
+
+</body>
+</html>

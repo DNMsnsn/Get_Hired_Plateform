@@ -1,0 +1,520 @@
+﻿@model MiniProjetS04.Models.ProfilViewModel
+@{
+    ViewBag.Title = "Profile";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="~/Content/file.css">
+    <link rel="stylesheet" href="~/Content/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-logo">
+            <span class="logo-icon">✉</span>
+            <span class="logo-text">GetHired</span>
+        </div>
+        <div class="nav-links">
+            <a href="@Url.Action("Accueil")">Accueil</a>
+            <a href="#cvSection">CV</a>
+            <a href="#offresSection">Offres</a>
+            <a href="#candidaturesSection">Candidatures</a>
+            <a href="#candidatsSection">Candidats</a>
+            @if (Session["statut"].Equals("admin"))
+            {
+                <a href="@Url.Action("Admin")">Admin</a>
+            }
+        </div>
+        
+        <div class="nav-auth">
+            <a href="@Url.Action("Logout", "Accueil")" class="btn-inscription">Deconnexion</a>
+        </div>
+    </nav>
+
+    <section class="prof-sec" id="cvSection">
+        <div class="img-prof"><i class="fa-solid fa-user"></i></div>
+        <div class="info-prof">
+            <h1>@Model.utilisateur.Nom @Model.utilisateur.Prenom</h1>
+            <h3>@Model.cv.Titre_prof</h3>
+            <button class="btn-primary" onclick="editProfile()">Modifier Profile</button>
+            <h3>@Model.utilisateur.Adresse</h3>
+            <a href="mailto:@Model.utilisateur.Email"><i class="fa-solid fa-envelope"></i></a>
+            <a href="tel:+213600000000"><i class="fa-solid fa-phone"></i></a>
+            <a href="@Model.utilisateur.Meta" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+            <a href="@Model.utilisateur.Github" target="_blank"><i class="fa-brands fa-github"></i></a>
+            <a href="@Model.utilisateur.Linkedin" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+
+
+
+        </div>
+        <div class="info-cv">
+            <div>
+                <h3>Experiences</h3>
+                <div>
+                    @Model.cv.experience
+                </div>
+            </div>
+            <div>
+                <h3>Formations</h3>
+                <div>
+                    @Model.cv.formations
+                </div>
+            </div>
+            <div>
+                <h3>Competences</h3>
+                <div>
+                    @Model.cv.competences
+                </div>
+            </div>
+            <div>
+                <h3>Projets</h3>
+                <div>
+                    @Model.cv.projets
+                </div>
+            </div>
+            <div>
+                <h3>Certificats</h3>
+                <div>
+                    @Model.cv.certifications
+                </div>
+            </div>
+            <button class="btn-secondary" onclick="editCv()">Modifier CV</button>
+        </div>
+    </section>
+
+    <section class="off-sec" id="offresSection">
+        <h1>Mes Offres</h1>
+        <button class="btn-primary" onclick="addOffre()">Publier Offre</button>
+        @if (Model.offres.Count != 0)
+        {
+            foreach (var offre in Model.offres)
+            {
+                <div class="offre">
+                    <div class="offre-count">Publier par @offre.utilisateur.Nom @offre.utilisateur.Prenom</div>
+                    <div class="offre-lieu">@String.Format("{0:yyyy-MM-dd}", offre.date_ajout)</div>
+                    <div class="offre-cat">@offre.categorie</div>
+                    <div class="offre-titre">@offre.titre_poste</div>
+                    <div class="offre-lieu">@offre.lieu_travail  |  @offre.type</div>
+                    <div class="offre-count">@offre.nb_condidatures</div>
+                    <button class="btn-secondary"
+                            onclick="editOffre(this)"
+                            data-id="@offre.Id"
+                            data-id_utilisateur="@offre.id_utilisateur"
+                            data-titre_poste="@offre.titre_poste"
+                            data-entreprise="@offre.entreprise"
+                            data-description="@offre.description"
+                            data-mission="@offre.mission"
+                            data-profil_rechercher="@offre.profil_rechercher"
+                            data-competences_rechercher="@offre.competences_rechercher"
+                            data-conditions_travail="@offre.conditions_travail"
+                            data-lieu_travail="@offre.lieu_travail"
+                            data-avantages="@offre.avantages"
+                            data-statut="@offre.statut"
+                            data-type="@offre.type"
+                            data-categorie="@offre.categorie">
+                        Modifier
+                    </button>
+                    <form action="@Url.Action("DeleteOffre", "Accueil")" method="post">
+                        <input type="hidden" name="Id" value="@offre.Id" />
+                        <button type="submit" class="btn-danger">Supprimer</button>
+                    </form>
+                </div>
+            } 
+        } else
+            {
+                <span class="empty">You didn't publish any Offers Yet !</span>
+            }
+    </section>
+
+    <section class="off-sec" id="candidaturesSection">
+        <h1>Mes Candidatures</h1>
+        @if (Model.candidatures.Count != 0)
+        {
+            foreach (var can in Model.candidatures)
+            {
+                <div class="offre">
+                    <div class="offre-cat">@can.statut</div>
+                    <div class="offre-titre">@can.titre_poste</div>
+                    <div class="offre-lieu">Entreprise - @can.entreprise</div>
+                    <div class="offre-count">@String.Format("{0:yyyy-MM-dd}", can.dt_publication)</div>
+                </div>
+            }
+        } else
+            {
+    <span class="empty">You didn't Apply to any Offer Yet !</span>
+            }
+    </section>
+
+    <section class="off-sec" id="candidatsSection">
+        <h1>Candidats</h1>
+        @if (Model.candidats.Count != 0)
+        {
+            foreach (var can in Model.candidats)
+            {
+                <div class="offre">
+                    <div class="offre-cat">@can.candidature.statut</div>
+                    <div class="offre-titre">@can.Nom @can.Prenom - @can.offre.titre_poste</div>
+                    <div class="offre-lieu">Entreprise - @can.offre.entreprise</div>
+                    <div class="offre-count">@String.Format("{0:yyyy-MM-dd}", can.candidature.dt_publication)</div>
+                    <button class="btn-secondary"
+                            onclick="Accepter(this)"
+                            data-nom="@can.Nom"
+                            data-prenom="@can.Prenom"
+                            data-email="@can.Email"
+                            data-telf="@can.Tel"
+                            data-objet="@can.candidature.objet"
+                            data-titre-prof="@can.cv.Titre_prof"
+                            data-formation="@can.cv.formations"
+                            data-experience="@can.cv.experience"
+                            data-competence="@can.cv.competences"
+                            data-projet="@can.cv.projets"
+                            data-certification="@can.cv.certifications"
+                            data-statuts="@can.candidature.statut"
+                            data-id="@can.candidature.id">
+                        Voir Profile
+                    </button>
+                </div>
+            }
+        } else
+            {
+    <span class="empty">You don't have any Applyers Yet !</span>
+            }
+    </section>
+
+
+    <div class="back">
+        <button class="close" onclick="closeOverlay()">x</button>
+        <div class="edit prof">
+            <h1>Modifier Profile</h1>
+            <form action="@Url.Action("UpdateProfile", "Accueil")" method="post" class="form">
+                <input type="hidden" name="Id" value="@Model.utilisateur.Id" />
+
+                <label for="nom">Nom</label>
+                <input type="text" name="Nom" id="nom" value="@Model.utilisateur.Nom">
+
+                <label for="prenom">Prenom</label>
+                <input type="text" name="Prenom" id="prenom" value="@Model.utilisateur.Prenom">
+
+                <!--
+                <label for="dt_naiss">Date de naissance</label>
+                <input type="date" name="Dt_naiss" id="dt_naiss" value="@Model.utilisateur.Dt_naiss">
+                -->
+
+                <label for="tel">Telephone</label>
+                <input type="tel" name="Tel" id="tel" value="@Model.utilisateur.Tel">
+
+                <label for="mail">Email</label>
+                <input type="text" name="Email" id="mail" value="@Model.utilisateur.Email">
+
+                <label for="psw">Password</label>
+                <input type="password" name="Psw" id="psw" value="@Model.utilisateur.Psw">
+
+                <label for="adresse">Adresse</label>
+                <input type="text" name="Adresse" id="adresse" value="@Model.utilisateur.Adresse">
+
+                <label for="linkedin">LinkedIn</label>
+                <input type="text" name="Linkedin" id="linkedin" value="@Model.utilisateur.Linkedin">
+
+                <label for="github">GitHub</label>
+                <input type="text" name="Github" id="github" value="@Model.utilisateur.Github">
+
+                <label for="meta">Meta</label>
+                <input type="text" name="Meta" id="meta" value="@Model.utilisateur.Meta">
+
+                <input type="submit" name="sign" id="profSign" value="Modifier Profile">
+            </form>
+        </div>
+
+        <div class="edit cv">
+            <h1>Modifier CV</h1>
+            <form action="@Url.Action("UpdateCv", "Accueil")" method="post" class="form">
+                <input type="hidden" name="Id_utilisateur" value="@Session["userId"]" />
+                <input type="hidden" name="Id" value="@Model.cv.Id" />
+
+                <label for="titre">Titre Professionel</label>
+                <input type="text" name="Titre_prof" id="titre" value="@Model.cv.Titre_prof" required>
+
+                <label for="experiences">Experiences</label>
+                <textarea name="experience" id="experiences" value="@Model.cv.experience">@Model.cv.experience</textarea>
+
+                <label for="formations">Formations</label>
+                <textarea name="formations" id="formations" value="@Model.cv.formations">@Model.cv.formations</textarea>
+
+                <label for="competences">Competences</label>
+                <textarea name="competences" id="competences" value="@Model.cv.competences">@Model.cv.competences</textarea>
+
+                <label for="projets">Projets</label>
+                <textarea name="projets" id="projets" value="@Model.cv.projets">@Model.cv.projets</textarea>
+
+                <label for="certifications">Certifications</label>
+                <textarea name="certifications" id="certifications" value="@Model.cv.certifications">@Model.cv.certifications</textarea>
+
+                <input type="submit" name="sign" id="cvSign" value="Modifier CV">
+            </form>
+        </div>
+
+        <div class="edit offr">
+            <h1 id="ttl">Modifier Offre</h1>
+            <form action="@Url.Action("UpdateOffre", "Accueil")" method="post" class="form">
+                <input type="hidden" name="Id" id="Id" />
+                <input type="hidden" name="id_utilisateur" id="id_utilisateur" />
+
+                <label for="titre_poste">Tire Poste</label>
+                <input type="text" name="titre_poste" id="titre_poste" required>
+
+                <label for="entreprise">Entreprise</label>
+                <input type="text" name="entreprise" id="entreprise">
+
+                <label for="description">Description</label>
+                <textarea name="description" id="description"></textarea>
+
+                <label for="mission">Missions</label>
+                <textarea name="mission" id="mission"></textarea>
+
+                <label for="profile_rechercher">Profile Rechercher</label>
+                <textarea name="profil_rechercher" id="profile_rechercher"></textarea>
+
+                <label for="competences_rechercher">Competences Rechercher</label>
+                <textarea name="competences_rechercher" id="competences_rechercher"></textarea>
+
+                <label for="conditions_travail">Conditions de Travail</label>
+                <textarea name="conditions_travail" id="conditions_travail"></textarea>
+
+                <label for="lieu_travail">Lieu de Travail</label>
+                <input type="text" name="lieu_travail" id="lieu_travail">
+
+                <label for="avantages">Avantages</label>
+                <textarea name="avantages" id="avantages"></textarea>
+
+                <label for="statut">Statut</label>
+                <select name="statut" id="statut">
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                    <option value="cloturee">Cloturee</option>
+                </select>
+
+                <label for="type">Type</label>
+                <select name="type" id="type">
+                    <option value="CDI">CDI</option>
+                    <option value="CDD">CDD</option>
+                    <option value="stage">Stage</option>
+                    <option value="freelance">Freelance</option>
+                    <option value="alternance">Alternance</option>
+                    <option value="interime">Interime</option>
+                </select>
+
+                <label for="categorie">Categorie</label>
+                <select name="categorie" id="categorie">
+                    <option value="informatique">Informatique</option>
+                    <option value="ingenierie">Ingenierie</option>
+                    <option value="sante">Sante</option>
+                    <option value="business">Business</option>
+                    <option value="finance et comptabilite">Finance et Comptabilite</option>
+                </select>
+
+                <input type="submit" name="sign" id="offSign" value="Modifier Offre">
+            </form>
+        </div>
+
+        <div class="edit profile">
+            <h3 id="nomPrenom"></h3>
+
+            <p>Email: <span id="email"></span></p>
+            <p>Téléphone: <span id="telf"></span></p>
+
+            <p>Objet: <span id="objet"></span></p>
+            <p>Statut: <span id="statuts"></span></p>
+
+            <hr />
+
+            <h3>CV</h3>
+
+            <p>Titre: <span id="titreProf"></span></p>
+            <p>Expériences: <span id="experience"></span></p>
+            <p>Formations: <span id="formation"></span></p>
+            <p>Compétences: <span id="competence"></span></p>
+            <p>Projets: <span id="projet"></span></p>
+            <p>Certifications: <span id="certification"></span></p>
+
+            <hr />
+
+            <form action="@Url.Action("updateStatutCandidature", "Accueil")" class=".form" method="post" onsubmit="Data(event)">
+                <input type="hidden" name="id" id="id_candidature" />
+                <label class="badge badge-green" for="accpt">Accepter <input type="radio" id="accpt" name="statut" value="Acceptee" /></label>
+                <label class="badge badge-red" for="ref">Refuser <input type="radio" id="ref" name="statut" value="Refusee" /></label>
+                <input type="submit" value="Envoyer" />
+            </form>
+
+        </div>
+    </div>
+
+    <script>
+        let back = document.querySelector(".back");
+        let prof = document.querySelector(".prof");
+        let offre = document.querySelector(".offr");
+        let cv = document.querySelector(".cv");
+        let proff = document.querySelector(".profile")
+        let but = document.getElementById("offSign");
+        let ttl = document.getElementById("ttl");
+
+        function editProfile() {
+            back.style.display = "flex";
+            prof.style.display = "flex";
+        }
+
+        function editCv() {
+            back.style.display = "flex";
+            cv.style.display = "flex";
+        }
+
+        function addOffre() {
+            back.style.display = "flex";
+            offre.style.display = "flex";
+            but.value = "Publier";
+            ttl.innerText = "Publier une Nouvelle Offre";
+            document.getElementById("id_utilisateur").value = "@Session["userId"]";
+
+            let titre = btn.dataset.titre_poste;
+            let entreprise = btn.dataset.entreprise;
+            let description = btn.dataset.description;
+            let mission = btn.dataset.mission;
+            let profil = btn.dataset.profil_rechercher;
+            let competences = btn.dataset.competences_rechercher;
+            let conditions = btn.dataset.conditions_travail;
+            let lieu = btn.dataset.lieu_travail;
+            let avantages = btn.dataset.avantages;
+            let statut = btn.dataset.statut;
+            let type = btn.dataset.type;
+            let categorie = btn.dataset.categorie;
+
+            document.getElementById("titre_poste").value = "";
+            document.getElementById("entreprise").value = "";
+            document.getElementById("description").value = "";
+            document.getElementById("mission").value = "";
+            document.getElementById("profile_rechercher").value = "";
+            document.getElementById("competences_rechercher").value = "";
+            document.getElementById("conditions_travail").value = "";
+            document.getElementById("lieu_travail").value = "";
+            document.getElementById("avantages").value = "";
+
+            document.getElementById("statut").value = "";
+            document.getElementById("type").value = "";
+            document.getElementById("categorie").value = "";
+        }
+
+        function editOffre(btn) {
+            back.style.display = "flex";
+            offre.style.display = "flex";
+
+            but.value = "Modifier";
+            ttl.innerText = "Modifier une Offre";
+
+            let id = btn.dataset.id;
+            let userId = btn.dataset.id_utilisateur;
+            let titre = btn.dataset.titre_poste;
+            let entreprise = btn.dataset.entreprise;
+            let description = btn.dataset.description;
+            let mission = btn.dataset.mission;
+            let profil = btn.dataset.profil_rechercher;
+            let competences = btn.dataset.competences_rechercher;
+            let conditions = btn.dataset.conditions_travail;
+            let lieu = btn.dataset.lieu_travail;
+            let avantages = btn.dataset.avantages;
+            let statut = btn.dataset.statut;
+            let type = btn.dataset.type;
+            let categorie = btn.dataset.categorie;
+
+            document.getElementById("Id").value = id;
+            document.getElementById("id_utilisateur").value = userId;
+
+            document.getElementById("titre_poste").value = titre;
+            document.getElementById("entreprise").value = entreprise;
+            document.getElementById("description").value = description;
+            document.getElementById("mission").value = mission;
+            document.getElementById("profile_rechercher").value = profil;
+            document.getElementById("competences_rechercher").value = competences;
+            document.getElementById("conditions_travail").value = conditions;
+            document.getElementById("lieu_travail").value = lieu;
+            document.getElementById("avantages").value = avantages;
+
+            document.getElementById("statut").value = statut;
+            document.getElementById("type").value = type;
+            document.getElementById("categorie").value = categorie;
+        }
+
+        function Data(e) {
+            let id = document.getElementById("id_candidature").value;
+            let statut = document.querySelector('input[name="statut"]:checked');
+
+            console.log("ID:", id);
+            console.log("STATUT:", statut ? statut.value : null); 
+            
+        }
+
+        function Accepter(btn) {
+            back.style.display = "flex";
+            proff.style.display = "flex";
+
+            console.log(btn.dataset.id + "\n" +
+                btn.dataset.tel + "\n" +
+                btn.dataset.statut);
+
+            document.getElementById("nomPrenom").innerText =
+                btn.dataset.nom + " " + btn.dataset.prenom;
+
+            document.getElementById("email").innerText =
+                btn.dataset.email;
+
+            document.getElementById("telf").innerText =
+                btn.dataset.telf;
+
+            document.getElementById("objet").innerText =
+                btn.dataset.objet;
+
+            document.getElementById("statuts").innerText =
+                btn.dataset.statuts;
+
+            document.getElementById("titreProf").innerText =
+                btn.dataset.titreProf;
+
+            document.getElementById("experience").innerText =
+                btn.dataset.experience;
+
+            document.getElementById("formation").innerText =
+                btn.dataset.formation;
+
+            document.getElementById("competence").innerText =
+                btn.dataset.competence;
+
+            document.getElementById("projet").innerText =
+                btn.dataset.projet;
+
+            document.getElementById("certification").innerText =
+                btn.dataset.certification;
+
+            document.getElementById("id_candidature").value =
+                btn.dataset.id;
+
+            
+        }
+
+        function closeOverlay() {
+            back.style.display = "none";
+            offre.style.display = "none";
+            prof.style.display = "none";
+            cv.style.display = "none";
+            proff.style.display = "none";
+        }
+    </script>
+
+</body>
+</html>
+

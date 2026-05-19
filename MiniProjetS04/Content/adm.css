@@ -1,0 +1,453 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #F4F6F9;
+    color: #0C2340;
+}
+
+/* ── Navbar ── */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 65px;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    border-bottom: 1px solid #eef1f5;
+    z-index: 100;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo-icon {
+    font-size: 20px;
+    color: #185FA5;
+}
+
+.logo-text {
+    font-size: 18px;
+    font-weight: 700;
+    color: #185FA5;
+}
+
+.nav-links {
+    display: flex;
+    gap: 32px;
+}
+
+    .nav-links a {
+        text-decoration: none;
+        font-size: 15px;
+        font-weight: 500;
+        color: #0C2340;
+        transition: color 0.2s;
+    }
+
+        .nav-links a:hover {
+            color: #185FA5;
+        }
+
+.nav-auth {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-connexion {
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    color: #0C2340;
+}
+
+    .btn-connexion:hover {
+        color: #185FA5;
+    }
+
+.btn-inscription {
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #185FA5;
+    padding: 9px 22px;
+    border-radius: 50px;
+}
+
+    .btn-inscription:hover {
+        background-color: #0C447C;
+    }
+
+/* ── Layout ── */
+.admin-layout {
+    display: flex;
+    margin-top: 65px;
+    min-height: calc(100vh - 65px);
+}
+
+/* ── Sidebar ── */
+.sidebar {
+    width: 240px;
+    background-color: #ffffff;
+    border-right: 1px solid #dde2ea;
+    padding: 24px 16px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 65px;
+    height: calc(100vh - 65px);
+}
+
+.sidebar-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: #5a7a9a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+    padding-left: 12px;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #5a7a9a;
+    padding: 10px 12px;
+    border-radius: 8px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+    .sidebar-link:hover {
+        background-color: #F4F6F9;
+        color: #0C2340;
+    }
+
+    .sidebar-link.active {
+        background-color: #E6F1FB;
+        color: #185FA5;
+    }
+
+    .sidebar-link i {
+        font-size: 15px;
+        width: 18px;
+    }
+
+/* ── Main ── */
+.admin-main {
+    flex: 1;
+    padding: 32px;
+}
+
+.admin-section h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0C2340;
+    margin-bottom: 24px;
+}
+
+/* ── Stats grid ── */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    background-color: #ffffff;
+    border: 1px solid #dde2ea;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+    .stat-card i {
+        font-size: 24px;
+        color: #185FA5;
+        background-color: #E6F1FB;
+        padding: 12px;
+        border-radius: 10px;
+    }
+
+    .stat-card.danger i {
+        color: #A32D2D;
+        background-color: #FCEBEB;
+    }
+
+    .stat-card.warning i {
+        color: #854F0B;
+        background-color: #FAEEDA;
+    }
+
+    .stat-card.success i {
+        color: #085041;
+        background-color: #E1F5EE;
+    }
+
+.stat-label {
+    font-size: 12px;
+    color: #5a7a9a;
+    margin-bottom: 4px;
+}
+
+.stat-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: #0C2340;
+}
+
+/* ── Card ── */
+.card {
+    background-color: #ffffff;
+    border: 1px solid #dde2ea;
+    border-radius: 12px;
+    padding: 24px;
+}
+
+    .card h2 {
+        font-size: 15px;
+        font-weight: 600;
+        color: #0C2340;
+        margin-bottom: 16px;
+    }
+
+.mt {
+    margin-top: 24px;
+}
+
+/* ── Toolbar ── */
+.toolbar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.search-input {
+    flex: 1;
+    height: 40px;
+    border: 1px solid #dde2ea;
+    border-radius: 8px;
+    padding: 0 14px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    color: #0C2340;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+    .search-input:focus {
+        border-color: #185FA5;
+    }
+
+.filter-select {
+    height: 40px;
+    border: 1px solid #dde2ea;
+    border-radius: 8px;
+    padding: 0 14px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    color: #0C2340;
+    outline: none;
+    background-color: #ffffff;
+}
+
+/* ── Table ── */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+    .admin-table th {
+        text-align: left;
+        font-size: 12px;
+        font-weight: 600;
+        color: #5a7a9a;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        padding: 10px 12px;
+        border-bottom: 1px solid #eef1f5;
+    }
+
+    .admin-table td {
+        padding: 12px;
+        border-bottom: 1px solid #eef1f5;
+        color: #0C2340;
+        vertical-align: middle;
+    }
+
+    .admin-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .admin-table tr:hover td {
+        background-color: #F4F6F9;
+    }
+
+.user-icon {
+    color: #185FA5;
+    margin-right: 6px;
+}
+
+/* ── Actions ── */
+.actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    transition: opacity 0.2s;
+}
+
+    .btn-icon.btn-secondary {
+        background-color: #E6F1FB;
+        color: #185FA5;
+    }
+
+        .btn-icon.btn-secondary:hover {
+            background-color: #B5D4F4;
+        }
+
+    .btn-icon.btn-danger {
+        background-color: #FCEBEB;
+        color: #A32D2D;
+    }
+
+        .btn-icon.btn-danger:hover {
+            background-color: #F7C1C1;
+        }
+
+/* ── Badges ── */
+.badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+
+.badge-green {
+    background-color: #E1F5EE;
+    color: #085041;
+}
+
+.badge-blue {
+    background-color: #E6F1FB;
+    color: #0C447C;
+}
+
+.badge-red {
+    background-color: #FCEBEB;
+    color: #A32D2D;
+}
+
+.badge-purple {
+    background-color: #EEEDFE;
+    color: #3C3489;
+}
+
+/* ── Modal ── */
+.back {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-box {
+    background-color: #ffffff;
+    border-radius: 14px;
+    padding: 32px;
+    width: 400px;
+    max-width: 90vw;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.modal-icon {
+    font-size: 36px;
+    color: #E24B4A;
+}
+
+.modal-box h2 {
+    font-size: 17px;
+    font-weight: 600;
+    color: #0C2340;
+}
+
+.modal-box p {
+    font-size: 14px;
+    color: #5a7a9a;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+    .modal-actions button {
+        padding: 9px 20px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        font-family: 'Inter', sans-serif;
+        cursor: pointer;
+        border: none;
+        transition: opacity 0.2s;
+    }
+
+    .modal-actions .btn-danger {
+        background-color: #E24B4A;
+        color: #ffffff;
+    }
+
+    .modal-actions .btn-secondary {
+        background-color: transparent;
+        color: #185FA5;
+        border: 1px solid #185FA5;
+    }

@@ -1,0 +1,167 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #F4F6F9;
+    color: #0C2340;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.error-msg {
+    background-color: #FCEBEB;
+    border: 1px solid #F09595;
+    color: #A32D2D;
+    border-radius: 8px;
+    font-size: 13px;
+    padding: 10px 14px;
+    margin-top: 8px;
+}
+
+.success-msg {
+    background-color: #E1F5EE;
+    border: 1px solid #5DCAA5;
+    color: #085041;
+    border-radius: 8px;
+    font-size: 13px;
+    padding: 10px 14px;
+    margin-top: 8px;
+}
+
+/* ── Carte principale ── */
+.cnx-bloc {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    background-color: #ffffff;
+    border: 1px solid #dde2ea;
+    border-radius: 16px;
+    padding: 32px;
+    width: 480px;
+    max-width: 95vw;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+    /* ── Tabs ── */
+    .cnx-bloc > div:first-child {
+        display: flex;
+        background-color: #F4F6F9;
+        border-radius: 50px;
+        padding: 4px;
+        gap: 4px;
+    }
+
+.switch {
+    flex: 1;
+    height: 38px;
+    background-color: transparent;
+    border: none;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    color: #5a7a9a;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+    .switch.active {
+        background-color: #185FA5;
+        color: #ffffff;
+    }
+
+    .switch:not(.active):hover {
+        background-color: #dde2ea;
+        color: #0C2340;
+    }
+
+/* ── Formulaires ── */
+.log, .sign {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+}
+
+    .log.visible, .sign.visible {
+        display: flex;
+    }
+
+    .log h1, .sign h1 {
+        font-size: 20px;
+        font-weight: 700;
+        color: #0C2340;
+        margin-bottom: 8px;
+    }
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* ── Labels ── */
+label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #5a7a9a;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-top: 8px;
+}
+
+/* ── Inputs ── */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+textarea, 
+select {
+    width: 100%;
+    height: 42px;
+    border: 1px solid #dde2ea;
+    border-radius: 8px;
+    padding: 0 14px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    color: #0C2340;
+    background-color: #ffffff;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+input:focus, textarea, select {
+    border-color: #185FA5;
+}
+
+/* ── Bouton submit ── */
+input[type="submit"] {
+    margin-top: 16px;
+    height: 44px;
+    background-color: #185FA5;
+    color: #ffffff;
+    border: none;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+    input[type="submit"]:hover {
+        background-color: #0C447C;
+    }
+
+    input[type="submit"]:active {
+        transform: scale(0.98);
+    }
